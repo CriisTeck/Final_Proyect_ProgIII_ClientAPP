@@ -14,7 +14,7 @@ public class JSONUtils {
         return gson.toJson(new String[]{requestCode,title},String[].class);
     }
 
-    public static String objectToJSON(User userd, Class<?> userClass) {
+    public static String objectToJSON(Object userd, Class<?> userClass) {
         return gson.toJson(userd,userClass);
     }
 }

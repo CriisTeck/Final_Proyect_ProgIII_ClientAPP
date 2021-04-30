@@ -3,8 +3,10 @@ package net;
 import models.TypeAccount;
 import models.User;
 import persistence.WriterLog;
+import utils.CodeRequest;
 import utils.EncrypterString;
 import utils.JSONUtils;
+import utils.TitleRequest;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,21 +20,22 @@ public class Connection {
     private WriterLog writerLog;
 
     public Connection(String host, WriterLog writerLog) throws IOException {
-        this.socket = new Socket(host,PORT);
+        this.socket = new Socket(host, PORT);
         this.writerLog = writerLog;
         input = new DataInputStream(socket.getInputStream());
         output = new DataOutputStream(socket.getOutputStream());
     }
 
-    public String readData(){
-        return "";
+    public String[] readData() throws IOException {
+        return (String[]) JSONUtils.objectFromJSON(input.readUTF(), String[].class);
     }
 
-    public void sendData(Object data){
+    public void sendData(Object data) {
 
     }
 
     public void closeSocket() throws IOException {
+        sendRequest(CodeRequest.REQUEST_CLOSE_CONEXION_CODE);
         socket.close();
     }
 
@@ -41,29 +44,30 @@ public class Connection {
     }
 
 
-    public void sendRequest(String requestNewUserCode, String requestNewUserTitle) {
-        try {
-            output.writeUTF(JSONUtils.requestToJSON(requestNewUserCode,requestNewUserTitle));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void sendRequest(String requestNewUserCode) throws IOException {
+        output.writeUTF(JSONUtils.requestToJSON(requestNewUserCode, null));
     }
 
-    public void sendUser() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Usuario: ");
-        String user = in.nextLine();
-        System.out.println("Contraseña: ");
-        String pass = in.nextLine();
-        String id = user+"@"+ EncrypterString.encrypt(pass);
-        System.out.println("NOmbre: ");
-        String nombre = in.nextLine();
-        User userd = new User(id,nombre, TypeAccount.ADMIN);
+    public void sendUser(String id, String name, String email, TypeAccount role) {
         try {
-            output.writeUTF(JSONUtils.objectToJSON(userd,User.class));
+            output.writeUTF(JSONUtils.objectToJSON(new User(id, name,email,role), User.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void sendLoginData(String username, String password) throws IOException {
+        sendRequest(CodeRequest.REQUEST_SIGN_IN_CODE);
+        output.writeUTF(JSONUtils.objectToJSON(new String[]{username, password}, String[].class));
+    }
+
+    public boolean inputAvalaible() throws IOException {
+        return input.available() > 0;
+    }
+
+    public void sendRecoverEmail(String emailToRecover) throws IOException {
+        sendRequest(CodeRequest.REQUEST_SEND_EMAIL_RECOVER_CODE);
+        output.writeUTF(JSONUtils.objectToJSON(emailToRecover, String.class));
     }
 }
