@@ -54,7 +54,6 @@ public class Connection {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void sendLoginData(String username, String password) throws IOException {
