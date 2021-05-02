@@ -1,5 +1,6 @@
 package views.principalWindowpanels;
 
+import jiconfont.*;
 import jiconfont.icons.font_awesome.FontAwesome;
 import views.componentRounded.JButtonRounded;
 
@@ -8,6 +9,7 @@ import java.awt.*;
 
 import static jiconfont.swing.IconFontSwing.buildIcon;
 import static jiconfont.swing.IconFontSwing.register;
+import static views.windowUtilitary.ViewUtils.createIcon;
 
 
 public class JPanelInformation extends JPanel {
@@ -16,7 +18,6 @@ public class JPanelInformation extends JPanel {
     private JButtonRounded btnNotifications;
 
     public JPanelInformation() {
-//        this.setSize(weight, height);
         this.setLayout(new GridBagLayout());
         this.setBorder(BorderFactory.createLineBorder(Color.gray));
         initComponents();
@@ -57,8 +58,4 @@ public class JPanelInformation extends JPanel {
         btnNotifications.setIcon(createIcon(FontAwesome.BELL, 20,Color.black));
     }
 
-    public Icon createIcon(FontAwesome iconCode, int size, Color color){
-        register(FontAwesome.getIconFont());
-        return buildIcon(iconCode, size, color);
-    }
 }

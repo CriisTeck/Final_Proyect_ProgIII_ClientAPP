@@ -7,7 +7,7 @@ import utils.CodeRequest;
 import utils.MessageRequest;
 import utils.StringConstants;
 import views.*;
-import views.windowUtilitary.BugDesk;
+import views.windowUtilitary.ViewUtils;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class ClientController extends WindowAdapter implements IObserver, Action
 
     public ClientController() {
         try {
-            conn = new Connection("localhost", null);
+            conn = new Connection("18.223.156.121", null);
             login = new LoginWindow(this, this, this);
             if (conn.isRunning()) {
                 init();
@@ -55,29 +55,29 @@ public class ClientController extends WindowAdapter implements IObserver, Action
             startClient();
             return;
         } else if (message.equals(MessageRequest.ADVICE_EMAIL_SENDED)) {
-            BugDesk.showAdvice(StringConstants.EMAIL_SENDED, login.getActiveComponent());
+            ViewUtils.showAdvice(StringConstants.EMAIL_SENDED, login.getActiveComponent());
             login.disposeEmailWindow();
         } else if (login.isVisible())
-            BugDesk.showAdvice(message, login.getActiveComponent());
+            ViewUtils.showAdvice(message, login.getActiveComponent());
         else if (view.isVisible())
-            BugDesk.showAdvice(message, view.getActiveComponent());
+            ViewUtils.showAdvice(message, view.getActiveComponent());
 
     }
 
     private void startClient() throws IOException {
         String[] code = conn.readData();
         if (code[1].equals("MEMBER_TYPE"))
-            view = new PrincipalMemberWindow();
+            view = new PrincipalMemberWindow(this);
         else if (code[1].equals("ADMIN_TYPE"))
-            view = new PrincipalAdminWindow();
+            view = new PrincipalAdminWindow(this);
         login.dispose();
     }
 
     private void showError(String message) throws IOException {
         if (login.isVisible())
-            BugDesk.showError(message, login.getActiveComponent());
+            ViewUtils.showError(message, login.getActiveComponent());
         else if (view.isVisible())
-            BugDesk.showError(message, view.getActiveComponent());
+            ViewUtils.showError(message, view.getActiveComponent());
         if (message.equals(new EmailAlreadyRegisteredException().getMessage()) || message.equals(new UserAlreadyExistsException().getMessage()))
             conn.sendCreateUserRequest();
         if (message.equals(new EmailNotRegisteredException().getMessage()))

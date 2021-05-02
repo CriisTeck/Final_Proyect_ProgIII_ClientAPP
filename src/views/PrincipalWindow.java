@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class PrincipalWindow extends JFrame {
     private JPanelInformation pnlInformation;
+    private GridBagConstraints gbc;
 
     public PrincipalWindow(String title){
         super(title);
@@ -24,18 +25,22 @@ public class PrincipalWindow extends JFrame {
     }
 
     private void posicionateComponents() {
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.weighty = 0.1;
+        gbc.weighty = 0;
         gbc.weightx = 1;
         add(pnlInformation, gbc);
     }
 
     public Component getActiveComponent() {
         return this;
+    }
+
+    protected GridBagConstraints getGridBagConstraints() {
+        return gbc;
     }
 }
