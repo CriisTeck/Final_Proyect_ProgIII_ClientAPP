@@ -1,12 +1,12 @@
-package views;
+package views.loginWindowDialogs;
 
 import exceptions.BadEmailFormatException;
-import views.ComponentRounded.JButtonRounded;
-import views.ComponentRounded.JTextFieldRounded;
+import utils.StringConstants;
+import views.componentRounded.JButtonRounded;
+import views.componentRounded.JTextFieldRounded;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class JDialogForgottenPass extends JDialog {
@@ -74,8 +74,24 @@ public class JDialogForgottenPass extends JDialog {
     }
 
     public String getEmail() throws BadEmailFormatException {
-        if(txtEmail.getText().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))
+        if(txtEmail.getText().matches(StringConstants.EMAIL_REGEX)){
+            btnSendEmail.setEnabled(false);
             return txtEmail.getText();
+        }
         throw new BadEmailFormatException();
+    }
+
+    private void clearFields(){
+        txtEmail.setText("");
+    }
+
+    @Override
+    public void dispose() {
+        clearFields();
+        super.dispose();
+    }
+
+    public void enableButton(){
+        btnSendEmail.setEnabled(true);
     }
 }

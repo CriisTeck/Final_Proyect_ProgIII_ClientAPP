@@ -4,13 +4,13 @@ import models.TypeAccount;
 import models.User;
 import persistence.WriterLog;
 import utils.CodeRequest;
-import utils.EncrypterString;
 import utils.JSONUtils;
-import utils.TitleRequest;
+import utils.MessageRequest;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Connection {
     private static final int PORT = 25850;
@@ -35,7 +35,7 @@ public class Connection {
     }
 
     public void closeSocket() throws IOException {
-        sendRequest(CodeRequest.REQUEST_CLOSE_CONEXION_CODE);
+        sendRequest(CodeRequest.REQUEST,MessageRequest.REQUEST_CLOSE_CONEXION_CODE);
         socket.close();
     }
 
@@ -44,20 +44,16 @@ public class Connection {
     }
 
 
-    public void sendRequest(String requestNewUserCode) throws IOException {
-        output.writeUTF(JSONUtils.requestToJSON(requestNewUserCode, null));
+    public void sendRequest(String typeRequest, String messageRequest) throws IOException {
+        output.writeUTF(JSONUtils.requestToJSON(typeRequest, messageRequest));
     }
 
-    public void sendUser(String id, String name, String email, TypeAccount role) {
-        try {
+    public void sendUser(String id, String name, String email, TypeAccount role) throws IOException {
             output.writeUTF(JSONUtils.objectToJSON(new User(id, name,email,role), User.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void sendLoginData(String username, String password) throws IOException {
-        sendRequest(CodeRequest.REQUEST_SIGN_IN_CODE);
+        sendRequest(CodeRequest.REQUEST, MessageRequest.REQUEST_SIGN_IN_CODE);
         output.writeUTF(JSONUtils.objectToJSON(new String[]{username, password}, String[].class));
     }
 
@@ -66,7 +62,12 @@ public class Connection {
     }
 
     public void sendRecoverEmail(String emailToRecover) throws IOException {
-        sendRequest(CodeRequest.REQUEST_SEND_EMAIL_RECOVER_CODE);
+        sendRequest(CodeRequest.REQUEST,MessageRequest.REQUEST_SEND_EMAIL_RECOVER_CODE);
         output.writeUTF(JSONUtils.objectToJSON(emailToRecover, String.class));
     }
+
+    public void sendCreateUserRequest() throws IOException {
+        sendRequest(CodeRequest.REQUEST, MessageRequest.REQUEST_NEW_USER_CODE);
+    }
+
 }

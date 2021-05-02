@@ -1,13 +1,12 @@
 package views;
 
-import controllers.ClientController;
-import exceptions.BadEmailFormatException;
-import exceptions.PasswordFieldEmptyException;
-import exceptions.UsernameFieldEmpty_onLoginException;
-import utils.EncrypterString;
-import views.ComponentRounded.JButtonRounded;
-import views.ComponentRounded.JPasswordFieldRounded;
-import views.ComponentRounded.JTextFieldRounded;
+import exceptions.*;
+import models.TypeAccount;
+import views.componentRounded.JButtonRounded;
+import views.componentRounded.JPasswordFieldRounded;
+import views.componentRounded.JTextFieldRounded;
+import views.loginWindowDialogs.JDialogForgottenPass;
+import views.loginWindowDialogs.JDialogNewUser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
+import java.text.MessageFormat;
+
+import static utils.EncrypterString.*;
 
 public class LoginWindow extends JFrame implements MouseListener {
     private JLabel lblUserName;
@@ -30,18 +32,18 @@ public class LoginWindow extends JFrame implements MouseListener {
     private JDialogForgottenPass dlgForgottenPass;
 
 
-    public LoginWindow(WindowAdapter wlistener, ActionListener listener) {
+    public LoginWindow(WindowAdapter wlistener, ActionListener listener, MouseListener mListener) {
         this.setSize(300, 500);
         this.setLayout(new GridBagLayout());
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        initComponents(listener);
+        initComponents(listener, mListener);
         this.getContentPane().setBackground(new Color(50, 50, 50));
         this.setVisible(true);
         this.addWindowListener(wlistener);
     }
 
-    private void initComponents(ActionListener listener) {
+    private void initComponents(ActionListener listener,MouseListener mListener) {
         lblUserName = new JLabel("Usuario:");
         lblPassword = new JLabel("Contraseña: ");
 
@@ -58,13 +60,11 @@ public class LoginWindow extends JFrame implements MouseListener {
         dlgNewUser = new JDialogNewUser(listener);
 
         posicionateComponents();
-        setConfigInitial(listener);
+        setConfigInitial(listener, mListener);
     }
 
-    private void setConfigInitial(ActionListener listener) {
+    private void setConfigInitial(ActionListener listener, MouseListener mListener) {
         configureLabel(userForgotten, "lblUserForgotten");
-        configureLabel(createUser, "lblCreateUser");
-        configureLabel(lblShowPassword, "lblShowPassword");
 
         btnLogin.addActionListener(listener);
         btnLogin.setActionCommand("Login");
@@ -75,6 +75,11 @@ public class LoginWindow extends JFrame implements MouseListener {
         lblUserName.setForeground(Color.gray);
         createUser.setForeground(Color.gray);
         userForgotten.setForeground(Color.gray);
+
+        createUser.addMouseListener(mListener);
+        userForgotten.addMouseListener(mListener);
+        configureLabel(createUser, "lblCreateUser");
+        configureLabel(lblShowPassword, "lblShowPassword");
     }
 
     private void configureLabel(JLabel label, String name) {
@@ -177,17 +182,66 @@ public class LoginWindow extends JFrame implements MouseListener {
 
     public String getPassword() throws PasswordFieldEmptyException {
         if(pssPassword.getPassword().length > 0)
-            return EncrypterString.encrypt(String.valueOf(pssPassword.getPassword()));
+            return encrypt(String.valueOf(pssPassword.getPassword()));
         throw new PasswordFieldEmptyException();
     }
 
-    public String getUsername() throws UsernameFieldEmpty_onLoginException {
+    public String getUsername() throws UsernameFieldEmptyException {
         if(txtUserName.getText().length() > 0)
-            return EncrypterString.encrypt(txtUserName.getText());
-        throw new UsernameFieldEmpty_onLoginException();
+            return encrypt(txtUserName.getText());
+        throw new UsernameFieldEmptyException();
     }
 
     public String getEmailToRecover() throws BadEmailFormatException {
-        return dlgForgottenPass.getEmail();
+        return encrypt(dlgForgottenPass.getEmail());
+    }
+
+    public void setAdminTrue() {
+        dlgNewUser.setAdminTrue();
+    }
+
+    public void setAdminFalse() {
+        dlgNewUser.setAdminFalse();
+    }
+
+    public String getId() throws PasswordFieldEmptyException, PasswordNotEqualsException, UsernameFieldEmptyException {
+        String pass = encrypt(dlgNewUser.getPassword());
+        return MessageFormat.format("{0}@{1}", encrypt(dlgNewUser.getUsername()), encrypt(dlgNewUser.getPassword()));
+    }
+
+    public String getUserName() throws UserFieldEmptyException {
+        return dlgNewUser.getUserName();
+    }
+
+    public String getEmail() throws BadEmailFormatException, EmailFieldEmptyException {
+        return encrypt(dlgNewUser.getEmail());
+    }
+
+    public TypeAccount getRole() throws NotRoleSelectedException {
+        return  dlgNewUser.getRole();
+    }
+
+    public Component getActiveComponent() {
+        if(dlgNewUser.isActive())
+            return dlgNewUser;
+        if(dlgForgottenPass.isActive())
+            return dlgForgottenPass;
+        return this;
+
+    }
+
+    @Override
+    public void dispose() {
+        dlgNewUser.dispose();
+        dlgForgottenPass.dispose();
+        super.dispose();
+    }
+
+    public void disposeEmailWindow() {
+        dlgForgottenPass.dispose();
+    }
+
+    public void enableBtn() {
+        dlgForgottenPass.enableButton();
     }
 }

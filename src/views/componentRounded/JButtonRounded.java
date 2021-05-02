@@ -1,4 +1,4 @@
-package views.ComponentRounded;
+package views.componentRounded;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;

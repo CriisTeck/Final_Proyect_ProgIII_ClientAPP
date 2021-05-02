@@ -1,12 +1,16 @@
-package views;
+package views.loginWindowDialogs;
 
-import views.ComponentRounded.JButtonRounded;
-import views.ComponentRounded.JPasswordFieldRounded;
-import views.ComponentRounded.JTextFieldRounded;
+import exceptions.*;
+import models.TypeAccount;
+import utils.StringConstants;
+import views.componentRounded.JButtonRounded;
+import views.componentRounded.JPasswordFieldRounded;
+import views.componentRounded.JTextFieldRounded;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class JDialogNewUser extends JDialog {
     private JLabel lblTitle;
@@ -15,24 +19,27 @@ public class JDialogNewUser extends JDialog {
     private JLabel lblConfirmPassword;
     private JLabel lblName;
     private JLabel lblRole;
+    private JLabel lblEmail;
 
     private JTextFieldRounded txtUsername;
     private JPasswordFieldRounded pwfPassword;
     private JPasswordFieldRounded pwfConfirmPassword;
     private JTextFieldRounded txtName;
+    private JTextFieldRounded txtEmail;
 
     private JRadioButton rdbAdmin;
     private JRadioButton rdbMember;
 
     private JButtonRounded btnCreate;
+    private ButtonGroup btnGroupRDB;
 
     public JDialogNewUser(ActionListener listener) {
         this.setTitle("Crear nuevo Usuario");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(500,500);
+        this.setSize(500, 500);
         this.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
         this.setLayout(new GridBagLayout());
-        this.getContentPane().setBackground(new Color(50,50,50));
+        this.getContentPane().setBackground(new Color(50, 50, 50));
         this.setLocationRelativeTo(null);
         initComponents(listener);
         this.setVisible(false);
@@ -54,6 +61,13 @@ public class JDialogNewUser extends JDialog {
         rdbAdmin = new JRadioButton("Administrador");
         rdbMember = new JRadioButton("Miembro Normal");
 
+        btnGroupRDB = new ButtonGroup();
+        btnGroupRDB.add(rdbAdmin);
+        btnGroupRDB.add(rdbMember);
+
+        lblEmail = new JLabel("Email");
+        txtEmail = new JTextFieldRounded(15);
+
         btnCreate = new JButtonRounded("Crear Usuario");
         configComponents(listener);
         posicionateComponents();
@@ -69,8 +83,8 @@ public class JDialogNewUser extends JDialog {
         changeForegroundColor(lblTitle, colorForLabels);
         changeForegroundColor(rdbAdmin, colorForLabels);
         changeForegroundColor(rdbMember, colorForLabels);
-        rdbAdmin.setBackground(new Color(50,50,50));
-        rdbMember.setBackground(new Color(50,50,50));
+        rdbAdmin.setBackground(new Color(50, 50, 50));
+        rdbMember.setBackground(new Color(50, 50, 50));
         btnCreate.addActionListener(listener);
         btnCreate.setActionCommand("CreateUser");
     }
@@ -83,7 +97,7 @@ public class JDialogNewUser extends JDialog {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(20,5,0,5);
+        gbc.insets = new Insets(20, 5, 0, 5);
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.ipady = 10;
@@ -120,11 +134,18 @@ public class JDialogNewUser extends JDialog {
 
         gbc.gridy++;
         gbc.gridx--;
+        add(lblEmail, gbc);
+
+        gbc.gridx++;
+        add(txtEmail, gbc);
+
+        gbc.gridy++;
+        gbc.gridx--;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         add(lblRole, gbc);
 
-        gbc.gridwidth =1;
+        gbc.gridwidth = 1;
         gbc.gridy++;
         add(rdbAdmin, gbc);
 
@@ -137,11 +158,11 @@ public class JDialogNewUser extends JDialog {
         add(btnCreate, gbc);
     }
 
-//    @Override
-//    public void dispose() {
-//        clearFields();
-//        this.setVisible(false);
-//    }
+    @Override
+    public void dispose() {
+        clearFields();
+        super.dispose();
+    }
 
     private void clearFields() {
         txtName.setText("");
@@ -152,4 +173,52 @@ public class JDialogNewUser extends JDialog {
         rdbAdmin.setSelected(false);
     }
 
+    public void setAdminTrue() {
+        rdbAdmin.setEnabled(false);
+        rdbMember.setSelected(true);
+        rdbMember.setEnabled(false);
+    }
+
+    public void setAdminFalse() {
+        rdbAdmin.setEnabled(true);
+        rdbMember.setEnabled(true);
+    }
+
+    public String getUserName() throws UserFieldEmptyException {
+        if (txtName.getText().length() > 0)
+            return txtName.getText();
+        throw new UserFieldEmptyException();
+    }
+
+    public String getUsername() throws UsernameFieldEmptyException {
+        if (txtUsername.getText().length() > 0)
+            return txtUsername.getText();
+        throw new UsernameFieldEmptyException();
+    }
+
+    public String getEmail() throws BadEmailFormatException, EmailFieldEmptyException {
+        if (txtEmail.getText().matches(StringConstants.EMAIL_REGEX)){
+            if (txtEmail.getText().length() > 0)
+                return txtEmail.getText();
+            throw new EmailFieldEmptyException();
+        }
+        throw new BadEmailFormatException();
+    }
+
+    public String getPassword() throws PasswordFieldEmptyException, PasswordNotEqualsException {
+        if(Arrays.equals(pwfPassword.getPassword(), pwfConfirmPassword.getPassword())){
+            if(pwfPassword.getPassword().length > 0)
+                return String.valueOf(pwfPassword.getPassword());
+            throw new PasswordFieldEmptyException();
+        }
+        throw new PasswordNotEqualsException();
+    }
+
+    public TypeAccount getRole() throws NotRoleSelectedException {
+        if(rdbMember.isSelected())
+            return TypeAccount.MEMBER;
+        if(rdbAdmin.isSelected())
+            return TypeAccount.ADMIN;
+        throw new NotRoleSelectedException();
+    }
 }

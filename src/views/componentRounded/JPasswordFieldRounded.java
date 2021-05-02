@@ -1,11 +1,9 @@
-package views.ComponentRounded;
+package views.componentRounded;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 
 public class JPasswordFieldRounded extends JPasswordField {
-//    private Shape shape;
 
     public JPasswordFieldRounded(int columns) {
         super(columns);
@@ -25,13 +23,6 @@ public class JPasswordFieldRounded extends JPasswordField {
         g.setColor(getForeground());
         g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
     }
-
-//    public boolean contains(int x, int y) {
-//        if (shape == null || !shape.getBounds().equals(getBounds())) {
-//            shape = new RoundRectangle2D.Float(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
-//        }
-//        return shape.contains(x, y);
-//    }
 
     public void showPassword() {
         this.setEchoChar((char) 0);

@@ -1,8 +1,7 @@
-package views.ComponentRounded;
+package views.componentRounded;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 
 public class JTextFieldRounded extends JTextField {
 //    private Shape shape;

@@ -19,11 +19,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/JTextFieldRound.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/jiconfont-font_awesome-4.7.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="com.github.jiconfont:jiconfont-swing:1.0.0" level="project" />
   </component>
 </module>
