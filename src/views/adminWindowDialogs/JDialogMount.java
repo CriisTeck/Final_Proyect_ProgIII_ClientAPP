@@ -1,6 +1,5 @@
 package views.adminWindowDialogs;
 
-import jdk.nashorn.internal.scripts.JD;
 import jiconfont.icons.font_awesome.FontAwesome;
 import views.componentRounded.JButtonRounded;
 import views.componentRounded.JTextFieldRounded;

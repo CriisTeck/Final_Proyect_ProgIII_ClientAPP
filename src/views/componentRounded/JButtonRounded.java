@@ -1,20 +1,18 @@
 package views.componentRounded;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class JButtonRounded extends JButton implements MouseListener {
-    private Shape shape;
     private boolean isHover;
     private Color colorButton;
     private boolean isPressed;
 
     public JButtonRounded(String name) {
         super(name);
-        super.setUI(new BasicButtonUI());
+        super.setUI(new MyButtonUI());
         super.setBorderPainted(false);
         setOpaque(false);
         isHover = false;

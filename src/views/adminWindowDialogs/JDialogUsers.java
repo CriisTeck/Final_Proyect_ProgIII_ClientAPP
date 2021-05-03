@@ -2,8 +2,7 @@ package views.adminWindowDialogs;
 
 import jiconfont.icons.font_awesome.FontAwesome;
 import utils.StringConstants;
-import views.componentRounded.JButtonRounded;
-import views.componentRounded.JTextFieldRounded;
+import views.componentRounded.*;
 
 import javax.swing.*;
 import java.awt.*;

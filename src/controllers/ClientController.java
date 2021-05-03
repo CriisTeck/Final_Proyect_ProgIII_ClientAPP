@@ -19,7 +19,7 @@ public class ClientController extends WindowAdapter implements IObserver, Action
 
     public ClientController() {
         try {
-            conn = new Connection("18.223.156.121", null);
+            conn = new Connection("3.16.13.254", null);
             login = new LoginWindow(this, this, this);
             if (conn.isRunning()) {
                 init();

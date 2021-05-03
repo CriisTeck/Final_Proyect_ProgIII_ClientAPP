@@ -1,10 +1,8 @@
 package views;
 
-import controllers.ClientController;
 import jiconfont.icons.font_awesome.FontAwesome;
 import utils.StringConstants;
-import views.adminWindowDialogs.JDialogMount;
-import views.adminWindowDialogs.JDialogUsers;
+import views.adminWindowDialogs.*;
 import views.adminWindowPanels.JPanelAdminSection;
 import views.adminWindowPanels.JPanelGeneralSection;
 import views.componentRounded.JButtonRounded;

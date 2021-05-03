@@ -1,5 +1,6 @@
 package views.windowUtilitary;
 
+import jiconfont.IconCode;
 import jiconfont.icons.font_awesome.FontAwesome;
 
 import javax.swing.*;
@@ -20,5 +21,24 @@ public class ViewUtils {
     public static Icon createIcon(FontAwesome iconCode, int size, Color color){
         register(FontAwesome.getIconFont());
         return buildIcon(iconCode, size, color);
+    }
+    public static Icon createIconWithCode(char iconCode, int size, Color color){
+        register(FontAwesome.getIconFont());
+        return buildIcon(new IconCode() {
+            @Override
+            public String name() {
+                return null;
+            }
+
+            @Override
+            public char getUnicode() {
+                return iconCode;
+            }
+
+            @Override
+            public String getFontFamily() {
+                return "FontAwesome";
+            }
+        }, size, color);
     }
 }

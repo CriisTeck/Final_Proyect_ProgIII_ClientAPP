@@ -1,14 +1,11 @@
 package views.principalWindowpanels;
 
-import jiconfont.*;
 import jiconfont.icons.font_awesome.FontAwesome;
 import views.componentRounded.JButtonRounded;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static jiconfont.swing.IconFontSwing.buildIcon;
-import static jiconfont.swing.IconFontSwing.register;
 import static views.windowUtilitary.ViewUtils.createIcon;
 
 
