@@ -1,18 +1,14 @@
 package views.principalWindowpanels;
 
-import jiconfont.icons.font_awesome.FontAwesome;
-import views.componentRounded.JButtonRounded;
+import utils.UtilsString;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static views.windowUtilitary.ViewUtils.createIcon;
 
 
 public class JPanelInformation extends JPanel {
     private JLabel lblName;
     private JLabel lblMount;
-    private JButtonRounded btnNotifications;
 
     public JPanelInformation() {
         this.setLayout(new GridBagLayout());
@@ -25,8 +21,6 @@ public class JPanelInformation extends JPanel {
     private void initComponents() {
         lblName = new JLabel("name");
         lblMount = new JLabel("0.0");
-        btnNotifications = new JButtonRounded("");
-        configComponents();
         posicionateComponents();
     }
 
@@ -36,7 +30,8 @@ public class JPanelInformation extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.8;
-        gbc.insets = new Insets(2,15,0,5);
+        gbc.ipady = 10;
+        gbc.insets = new Insets(2, 15, 0, 5);
         gbc.anchor = GridBagConstraints.WEST;
         add(lblName, gbc);
 
@@ -45,14 +40,14 @@ public class JPanelInformation extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add(lblMount, gbc);
 
-        gbc.gridx++;
-        gbc.weightx = 0.1;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(btnNotifications, gbc);
     }
 
-    private void configComponents() {
-        btnNotifications.setIcon(createIcon(FontAwesome.BELL, 20,Color.black));
+
+    public void setNameText(String name) {
+        lblName.setText(UtilsString.capitalize(name));
     }
 
+    public void setMount(double actualMount, double maximum) {
+        lblMount.setText(actualMount + "/" + maximum);
+    }
 }

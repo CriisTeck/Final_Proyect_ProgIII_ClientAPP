@@ -12,18 +12,6 @@ public class Calculator {
         articleList = new Stack<>(Article::compare);
     }
 
-    public void addArticle(Article article){
-        articleList.push(article);
-    }
-
-    public Article createArticle(int idArticle, String name, int cost){
-        return new Article(idArticle,name,cost);
-    }
-
-    public Article removeLastArticle(){
-        return articleList.pop();
-    }
-
     public int calculateTotal(){
         Iterator<Article> iterator = articleList.iterator();
         int counterTotal = 0;
@@ -37,6 +25,6 @@ public class Calculator {
     }
 
     public Expense getBuyExpense(String description){
-        return new Expense(calculateTotal(), LocalDateTime.now(),TypeExpense.COMPRA,"");
+        return new Expense(calculateTotal(), LocalDateTime.now(),"");
     }
 }

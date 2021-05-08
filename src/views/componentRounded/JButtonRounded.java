@@ -1,5 +1,7 @@
 package views.componentRounded;
 
+import views.windowUtilitary.MyButtonUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -23,21 +25,21 @@ public class JButtonRounded extends JButton implements MouseListener {
 
     @Override
     protected void paintComponent(Graphics g) {
-        if(!isHover)
-            g.setColor(new Color(255,255,255));
+        if (!isHover)
+            g.setColor(new Color(255, 255, 255));
         else if (isPressed)
             g.setColor(colorButton);
         else
             g.setColor(new Color(93, 136, 182));
 
-        g.fillRoundRect(0,0,getWidth()-1,getHeight()-1,25,25);
+        g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 25, 25);
         super.paintComponent(g);
     }
 
     @Override
     protected void paintBorder(Graphics g) {
         g.setColor(Color.black);
-        g.drawRoundRect(0,0,getWidth()-1,getHeight()-1,25,25);
+        g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 25, 25);
         super.paintBorder(g);
     }
 
@@ -46,13 +48,13 @@ public class JButtonRounded extends JButton implements MouseListener {
         paintComponent(getGraphics());
     }
 
-    public void pressButton(){
+    public void pressButton() {
         isPressed = true;
         colorButton = new Color(93, 161, 182);
         paintComponent(getGraphics());
     }
 
-    public void unpressButton(){
+    public void unpressButton() {
         isPressed = false;
         updateHover(true);
         paintComponent(getGraphics());

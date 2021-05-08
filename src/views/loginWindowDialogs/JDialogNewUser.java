@@ -31,7 +31,6 @@ public class JDialogNewUser extends JDialog {
     private JRadioButton rdbMember;
 
     private JButtonRounded btnCreate;
-    private ButtonGroup btnGroupRDB;
 
     public JDialogNewUser(ActionListener listener) {
         this.setTitle("Crear nuevo Usuario");
@@ -61,7 +60,7 @@ public class JDialogNewUser extends JDialog {
         rdbAdmin = new JRadioButton("Administrador");
         rdbMember = new JRadioButton("Miembro Normal");
 
-        btnGroupRDB = new ButtonGroup();
+        ButtonGroup btnGroupRDB = new ButtonGroup();
         btnGroupRDB.add(rdbAdmin);
         btnGroupRDB.add(rdbMember);
 

@@ -1,18 +1,18 @@
 package models;
 
 public class Article {
-    private int idArticle;
-    private String name;
-    private int cost;
+    private final int quantity;
+    private final String name;
+    private final int cost;
 
-    public Article(int idArticle, String name, int cost) {
+    public Article(int quantity, String name, int cost) {
         this.cost = cost;
         this.name = name;
-        this.idArticle = idArticle;
+        this.quantity = quantity;
     }
 
-    public int getIdArticle() {
-        return idArticle;
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getName() {
@@ -24,6 +24,10 @@ public class Article {
     }
 
     public static int compare(Article o, Article o1) {
-        return Integer.compare(o.getIdArticle(),o1.getIdArticle());
+        return Integer.compare(o.getQuantity(),o1.getQuantity());
+    }
+
+    public Object[] toArray(){
+        return new Object[]{name,cost,quantity};
     }
 }

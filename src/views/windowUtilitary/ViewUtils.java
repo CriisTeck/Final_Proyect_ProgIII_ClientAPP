@@ -18,11 +18,12 @@ public class ViewUtils {
         JOptionPane.showMessageDialog(frame, message, "ERROR", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static Icon createIcon(FontAwesome iconCode, int size, Color color){
+    public static Icon createIcon(FontAwesome iconCode, int size, Color color) {
         register(FontAwesome.getIconFont());
         return buildIcon(iconCode, size, color);
     }
-    public static Icon createIconWithCode(char iconCode, int size, Color color){
+
+    public static Icon createIconWithCode(char iconCode, int size, Color color) {
         register(FontAwesome.getIconFont());
         return buildIcon(new IconCode() {
             @Override
@@ -40,5 +41,9 @@ public class ViewUtils {
                 return "FontAwesome";
             }
         }, size, color);
+    }
+
+    public static int showSignOutMessage(Component frame, String message) {
+        return JOptionPane.showConfirmDialog(frame, message, "Confirmación de acción", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 }

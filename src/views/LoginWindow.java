@@ -43,7 +43,7 @@ public class LoginWindow extends JFrame implements MouseListener {
         this.addWindowListener(wlistener);
     }
 
-    private void initComponents(ActionListener listener,MouseListener mListener) {
+    private void initComponents(ActionListener listener, MouseListener mListener) {
         lblUserName = new JLabel("Usuario:");
         lblPassword = new JLabel("Contraseña: ");
 
@@ -140,54 +140,54 @@ public class LoginWindow extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getComponent().getName().equals(userForgotten.getName()))
+        if (e.getComponent().getName().equals(userForgotten.getName()))
             dlgForgottenPass.setVisible(true);
-        if(e.getComponent().getName().equals(createUser.getName()))
+        if (e.getComponent().getName().equals(createUser.getName()))
             dlgNewUser.setVisible(true);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(e.getComponent().getName().equals(lblShowPassword.getName())){
+        if (e.getComponent().getName().equals(lblShowPassword.getName())) {
             pssPassword.showPassword();
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(e.getComponent().getName().equals(lblShowPassword.getName())){
+        if (e.getComponent().getName().equals(lblShowPassword.getName())) {
             pssPassword.hidePassword();
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(e.getComponent().getClass() == JLabel.class)
-            changeForeGroundHover(e, new Color(34,104,227));
+        if (e.getComponent().getClass() == JLabel.class)
+            changeForeGroundHover(e, new Color(34, 104, 227));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if(e.getComponent().getClass() == JLabel.class)
+        if (e.getComponent().getClass() == JLabel.class)
             changeForegroundUnHover(e);
     }
 
-    private void changeForeGroundHover(MouseEvent e, Color color){
+    private void changeForeGroundHover(MouseEvent e, Color color) {
         e.getComponent().setForeground(color);
     }
 
-    private void changeForegroundUnHover(MouseEvent e){
+    private void changeForegroundUnHover(MouseEvent e) {
         e.getComponent().setForeground(Color.gray);
     }
 
     public String getPassword() throws PasswordFieldEmptyException {
-        if(pssPassword.getPassword().length > 0)
+        if (pssPassword.getPassword().length > 0)
             return encrypt(String.valueOf(pssPassword.getPassword()));
         throw new PasswordFieldEmptyException();
     }
 
     public String getUsername() throws UsernameFieldEmptyException {
-        if(txtUserName.getText().length() > 0)
+        if (txtUserName.getText().length() > 0)
             return encrypt(txtUserName.getText());
         throw new UsernameFieldEmptyException();
     }
@@ -205,7 +205,6 @@ public class LoginWindow extends JFrame implements MouseListener {
     }
 
     public String getId() throws PasswordFieldEmptyException, PasswordNotEqualsException, UsernameFieldEmptyException {
-        String pass = encrypt(dlgNewUser.getPassword());
         return MessageFormat.format("{0}@{1}", encrypt(dlgNewUser.getUsername()), encrypt(dlgNewUser.getPassword()));
     }
 
@@ -218,13 +217,13 @@ public class LoginWindow extends JFrame implements MouseListener {
     }
 
     public TypeAccount getRole() throws NotRoleSelectedException {
-        return  dlgNewUser.getRole();
+        return dlgNewUser.getRole();
     }
 
     public Component getActiveComponent() {
-        if(dlgNewUser.isActive())
+        if (dlgNewUser.isActive())
             return dlgNewUser;
-        if(dlgForgottenPass.isActive())
+        if (dlgForgottenPass.isActive())
             return dlgForgottenPass;
         return this;
 

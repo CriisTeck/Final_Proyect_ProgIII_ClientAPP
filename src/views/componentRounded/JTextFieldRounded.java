@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class JTextFieldRounded extends JTextField {
-//    private Shape shape;
 
     public JTextFieldRounded(int columns) {
         super(columns);
@@ -22,11 +21,4 @@ public class JTextFieldRounded extends JTextField {
         g.setColor(getForeground());
         g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
     }
-
-//    public boolean contains(int x, int y) {
-//        if (shape == null || !shape.getBounds().equals(getBounds())) {
-//            shape = new RoundRectangle2D.Float(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
-//        }
-//        return shape.contains(x, y);
-//    }
 }
